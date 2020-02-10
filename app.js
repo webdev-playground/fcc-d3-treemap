@@ -62,7 +62,8 @@ d3.json(
       .attr('data-name', d => d.data.name)
       .attr('data-category', d => d.data.category)
       .attr('data-value', d => d.data.value)
-      .on('mouseover', d => {
+      .on('mouseover', function(d) {
+        d3.select(this).attr('stroke', 'black');
         tooltip
           .style('display', 'block')
           .attr('data-value', d.data.value)
@@ -72,7 +73,8 @@ d3.json(
             return `<div><p>Name: ${d.data.name}</p><p>Category: ${d.data.category}</p><p>Value: $${d.data.value}</p></div>`;
           });
       })
-      .on('mouseout', d => {
+      .on('mouseout', function(d) {
+        d3.select(this).attr('stroke', '');
         tooltip.style('display', 'none');
       });
 
