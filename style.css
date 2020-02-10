@@ -1,0 +1,14 @@
+#title {
+  text-align: center;
+}
+
+#description {
+  text-align: center;
+}
+
+#map {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
