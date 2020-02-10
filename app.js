@@ -1,6 +1,6 @@
-const width = 800;
+const width = 1000;
 const height = 800;
-const margin = 200;
+const margin = 10;
 
 const svg = d3
   .select('#map')
@@ -12,9 +12,15 @@ d3.json(
   'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/movie-data.json'
 )
   .then(movies => {
+    const numCategories = movies.length;
+    const categoryColors = d3.schemePastel2;
+
     const root = d3.hierarchy(movies).sum(function(d) {
       return parseInt(d.value) || 0;
     });
+
+    // prepare color scale
+    const colorScale = d3.scaleOrdinal(categoryColors);
 
     // prepare data for treemap
     d3
@@ -30,6 +36,7 @@ d3.json(
       .data(root.leaves())
       .enter()
       .append('rect')
+      .attr('class', 'tile')
       .attr('x', function(d) {
         return d.x0;
       })
@@ -41,6 +48,7 @@ d3.json(
       })
       .attr('height', function(d) {
         return d.y1 - d.y0;
-      });
+      })
+      .attr('fill', d => colorScale(d.data.category));
   })
   .catch(() => alert('An error occurred!'));
