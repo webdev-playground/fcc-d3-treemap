@@ -26,6 +26,13 @@ d3.json(
       .domain(categories)
       .range(categoryColors);
 
+    // tooltip
+    const tooltip = d3
+      .select('#map')
+      .append('div')
+      .attr('id', 'tooltip')
+      .style('display', 'none');
+
     // prepare data for treemap
     d3
       .treemap()
@@ -54,7 +61,20 @@ d3.json(
       .attr('fill', d => colorScale(d.data.category))
       .attr('data-name', d => d.data.name)
       .attr('data-category', d => d.data.category)
-      .attr('data-value', d => d.data.value);
+      .attr('data-value', d => d.data.value)
+      .on('mouseover', d => {
+        tooltip
+          .style('display', 'block')
+          .attr('data-value', d.data.value)
+          .style('left', d3.event.pageX + 10 + 'px')
+          .style('top', d3.event.pageY - 0 + 'px')
+          .html(() => {
+            return `<div><p>Name: ${d.data.name}</p><p>Category: ${d.data.category}</p><p>Value: $${d.data.value}</p></div>`;
+          });
+      })
+      .on('mouseout', d => {
+        tooltip.style('display', 'none');
+      });
 
     // Draw Legend
     const colorLegend = d3.legendColor().scale(colorScale);
