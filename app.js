@@ -26,9 +26,7 @@ d3.json(
     d3
       .treemap()
       .size([width, height])
-      .paddingTop(25)
-      .paddingRight(10)
-      .paddingInner(3)(root);
+      .paddingInner(1)(root);
 
     // draw tree map
     svg
@@ -49,6 +47,9 @@ d3.json(
       .attr('height', function(d) {
         return d.y1 - d.y0;
       })
-      .attr('fill', d => colorScale(d.data.category));
+      .attr('fill', d => colorScale(d.data.category))
+      .attr('data-name', d => d.data.name)
+      .attr('data-category', d => d.data.category)
+      .attr('data-value', d => d.data.value);
   })
   .catch(() => alert('An error occurred!'));
