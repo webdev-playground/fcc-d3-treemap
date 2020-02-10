@@ -1,4 +1,4 @@
-const width = 800;
+const width = 1500;
 const height = 600;
 const margin = 10;
 
@@ -12,7 +12,6 @@ d3.json(
   'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/movie-data.json'
 )
   .then(movies => {
-    const numCategories = movies.length;
     const categoryColors = d3.schemePastel2;
     const categories = movies.children.map(elem => elem.name);
 
@@ -77,6 +76,23 @@ d3.json(
         d3.select(this).attr('stroke', '');
         tooltip.style('display', 'none');
       });
+
+    svg
+      .selectAll('text')
+      .data(root.leaves())
+      .enter()
+      .append('text')
+      .attr('x', function(d) {
+        return d.x0 + 5;
+      })
+      .attr('y', function(d) {
+        return d.y0 + 15;
+      })
+      .text(function(d) {
+        return d.data.name;
+      })
+      .attr('font-size', '10px')
+      .attr('fill', 'black');
 
     // Draw Legend
     const colorLegend = d3.legendColor().scale(colorScale);
